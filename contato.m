@@ -1,6 +1,7 @@
-function  [Dados]=contato(Dados,campo,ne,c,Xmin,Ymin,dx,Cn,Kn) 
+function  [Dados,Ee]=contato(Dados,campo,ne,c,Xmin,Ymin,dx,Cn,Kn) 
 Xa=Dados.posicao(c,1);
 Ya=Dados.posicao(c,2);
+Ee=0;
 [P1,P2]=mapeamento(Xa,Ya,Xmin,Ymin,dx);
 c1=-1;
 c2=1;
@@ -16,10 +17,11 @@ if P2==1
 elseif P2==10
   C2=0;
 end
- for ca=c1:1:c2                       %Verifica nas células vizinhas
-    for cb=C1:1:C2
-      tc=length(campo{P1+ca,P2+cb});  %Tamanho da célula
-           if (tc)>0                  %Se a célula não for vazia, verifica o contato
+
+ for ca=c1:1:c2                       %Verifica nas células vizinhas   (x-1,x+0,x+1)
+    for cb=C1:1:C2                                                    %(Y-1,y+0,Y+1) 
+      tc=length(campo{P1+ca,P2+cb});  %Tamanho da célula     
+           if (tc)>0                  %Se a célula vizinha não for vazia, verifica o contato
              for cc=1:1:tc
                 p=(campo{P1+ca,P2+cb}(cc));      %Verifica os elementos da célula
                 if p>c
@@ -33,6 +35,7 @@ end
                         Dados.forcacont(c,2)=Dados.forcacont(c,2)+Fn(2);
                         Dados.forcacont(p,1)=Dados.forcacont(p,1)-Fn(1);
                         Dados.forcacont(p,2)=Dados.forcacont(p,2)-Fn(2);
+                        Ee=Ee+0.5*Kn*((Dados.raio(c)+Dados.raio(p))-D)^2;
                           end
                     end
                   end       
