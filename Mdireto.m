@@ -1,4 +1,4 @@
-clc; close (figure)
+clc; 
 clear all;
 % Condicoes iniciais
 L = 10;      %Largura da parede (m)
@@ -15,20 +15,20 @@ Kn=1000000;   %Constante da mola (Normal)
 
 
 
-Dados.posicao=[3 3; 5 3; 5 7; 8 7;6 5];              %Posições dos centros
-Dados.velocidade=[20 0;-30 0; -50 0; 35 0; 50 0];     %Velocidades
-Dados.massa=[2.5; 2; 2.5; 2; 2.5];                   %Massas
-Dados.raio=[0.5; 0.5; 0.5; 0.5;0.5];                 %Raios
-Dados.forcaext=[0 0;0 0;0 0;0 0;0 0];                %Forças externas
-Dados.forcacont=[0 0;0 0;0 0;0 0;0 0];               %Forças de contato
+Dados.posicao=[3 3; 4.5 3];              %Posições dos centros
+Dados.velocidade=[20 0;-30 0];           %Velocidades
+Dados.massa=[2.5; 2];                    %Massas
+Dados.raio=[0.5; 0.5];                   %Raios
+Dados.forcaext=[0 0;0 0];                %Forças externas
+Dados.forcacont=[0 0;0 0];               %Forças de contato
 
 
 %determincação do dt
 m=max(Dados.massa);
 tc=2*sqrt(m/Kn);
-e=0.1;
+e=0.0001;
 dt=e*tc;
-times = 0 : dt : 0.2;
+times = 0 : dt : 0.03;
 
 %Grid
 dx=2*max(Dados.raio);
@@ -53,17 +53,17 @@ for k=1:1:length(times)
     %Plot
     Ek=0;
     Epe(k)=0;
-    figure(1)
-    for l=1:1:ne
-       X=Dados.raio(l)*cos(teta)+Dados.posicao(l,1);
-       Y=Dados.raio(l)*sin(teta)+Dados.posicao(l,2);
-       plot(X,Y);fill(X,Y,'k');
-       hold on
-    end
-    plot([0 L],[0 0],'k',[0 L],[H H],'k',[0 0],[0 H],'k',[L L],[0 H],'k','LineWidth',5); hold off;
-    axis([-0.1,L+0.1,-0.1,H+0.1]); 
-    xlabel('Coordenada x (m)');
-    ylabel('Coordenada y (m)');
+    %figure(1)
+    %for l=1:1:ne
+     %  X=Dados.raio(l)*cos(teta)+Dados.posicao(l,1);
+      % Y=Dados.raio(l)*sin(teta)+Dados.posicao(l,2);
+       %plot(X,Y);fill(X,Y,'k');
+       %hold on
+    %end
+    %plot([0 L],[0 0],'k',[0 L],[H H],'k',[0 0],[0 H],'k',[L L],[0 H],'k','LineWidth',5); hold off;
+    %axis([-0.1,L+0.1,-0.1,H+0.1]); 
+    %xlabel('Coordenada x (m)');
+    %ylabel('Coordenada y (m)');
     
     
     %Colisão com a parede
@@ -99,15 +99,17 @@ for k=1:1:length(times)
     end
      Ec(k)=Ek;
    
-    Dados.forcacont=[0 0;0 0;0 0;0 0;0 0];
+    Dados.forcacont=[0 0;0 0];
     frame=getframe(gcf);
     writeVideo(v,frame);
    
     end
 
 figure (2)
-plot(times,Ec,times,Epe)
+
+plot(times,Ec,'-.',times,Epe,'-.')
 legend('Energia cinética','Energia elástica')
+
 close(v);
 
 

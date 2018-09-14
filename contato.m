@@ -1,7 +1,7 @@
 function  [Dados,Ee]=contato(Dados,campo,ne,c,Xmin,Ymin,dx,Cn,Kn) 
 Xa=Dados.posicao(c,1);
 Ya=Dados.posicao(c,2);
-Ee=0;
+Ee=0;    %Energia elástica
 [P1,P2]=mapeamento(Xa,Ya,Xmin,Ymin,dx);
 c1=-1;
 c2=1;
