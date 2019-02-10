@@ -26,7 +26,7 @@ Dados.forcacont=[0 0;0 0];               %Forças de contato
 %determincação do dt
 m=max(Dados.massa);
 tc=2*sqrt(m/Kn);
-e=0.0001;
+e=0.01;
 dt=e*tc;
 times = 0 : dt : 0.03;
 
@@ -53,17 +53,17 @@ for k=1:1:length(times)
     %Plot
     Ek=0;
     Epe(k)=0;
-    %figure(1)
-    %for l=1:1:ne
-     %  X=Dados.raio(l)*cos(teta)+Dados.posicao(l,1);
-      % Y=Dados.raio(l)*sin(teta)+Dados.posicao(l,2);
-       %plot(X,Y);fill(X,Y,'k');
-       %hold on
-    %end
-    %plot([0 L],[0 0],'k',[0 L],[H H],'k',[0 0],[0 H],'k',[L L],[0 H],'k','LineWidth',5); hold off;
-    %axis([-0.1,L+0.1,-0.1,H+0.1]); 
-    %xlabel('Coordenada x (m)');
-    %ylabel('Coordenada y (m)');
+    figure(1)
+    for l=1:1:ne
+       X=Dados.raio(l)*cos(teta)+Dados.posicao(l,1);
+       Y=Dados.raio(l)*sin(teta)+Dados.posicao(l,2);
+       plot(X,Y);fill(X,Y,'k');
+       hold on
+    end
+    plot([0 L],[0 0],'k',[0 L],[H H],'k',[0 0],[0 H],'k',[L L],[0 H],'k','LineWidth',5); hold off;
+    axis([-0.1,L+0.1,-0.1,H+0.1]); 
+    xlabel('Coordenada x (m)');
+    ylabel('Coordenada y (m)');
     
     
     %Colisão com a parede
@@ -107,7 +107,7 @@ for k=1:1:length(times)
 
 figure (2)
 
-plot(times,Ec,'-.',times,Epe,'-.')
+plot(times,Ec,times,Epe)
 legend('Energia cinética','Energia elástica')
 
 close(v);
